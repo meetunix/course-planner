@@ -1,0 +1,93 @@
+package de.uni.swt.spring.ui;
+
+import com.vaadin.flow.component.HasElement;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
+import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.AppLayoutMenu;
+import com.vaadin.flow.component.applayout.AppLayoutMenuItem;
+import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.server.VaadinServletService;
+import com.vaadin.flow.server.VaadinSession;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import static de.uni.swt.spring.ui.utils.SwtConst.*;
+
+@HtmlImport("frontend://styles/shared-styles.html")
+public class MainView extends AbstractAppRouterLayout {
+
+    public MainView() {
+    }
+
+    @Override
+    protected void configure(AppLayout appLayout, AppLayoutMenu menu) {
+
+        String role = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+
+        if (role.equalsIgnoreCase("[Student]")) {
+            setMenuItem(menu, VaadinIcon.USER.create(), TITLE_TEAMS_GRUPPEN, PAGE_TEAMS_GRUPPEN);
+            setMenuItem(menu, VaadinIcon.ABACUS.create(), TITLE_PUNKTE, PAGE_PUNKTE_STUDENT);
+        } else if (role.equalsIgnoreCase("[Dozent]")) {
+            setMenuItem(menu, VaadinIcon.DOCTOR.create(), TITLE_TEAMS, PAGE_TEAMS);
+            setMenuItem(menu, VaadinIcon.NURSE.create(), TITLE_GRUPPEN, PAGE_GRUPPEN);
+            setMenuItem(menu, VaadinIcon.WALLET.create(), TITLE_KONFIGURATION, PAGE_KONFIGURATION);
+            setMenuItem(menu, VaadinIcon.USER.create(), TITLE_NUTZER, PAGE_NUTZER);
+            setMenuItem(menu, VaadinIcon.ABACUS.create(), TITLE_PUNKTE, PAGE_PUNKTE_DOZENT);
+        } else if (role.equalsIgnoreCase("[Admin]")) {
+<<<<<<< HEAD
+//            setMenuItem(menu, VaadinIcon.PASSWORD.create(), TITLE_PASSWORT_RESET, PAGE_PASSWORT_RESET);
+=======
+            setMenuItem(menu, VaadinIcon.PASSWORD.create(), TITLE_PASSWORT_VERGABE, PAGE_PASSWORT_VERGABE);
+>>>>>>> 2dad05314c8a43189d91c894001a3b5327c48fb4
+            setMenuItem(menu, VaadinIcon.COG.create(), TITLE_ADMIN, PAGE_ADMIN);
+        } else { // TESTING
+            setMenuItem(menu, VaadinIcon.USER.create(), TITLE_TEAMS_GRUPPEN, PAGE_TEAMS_GRUPPEN);
+            setMenuItem(menu, VaadinIcon.ABACUS.create(), TITLE_PUNKTE, PAGE_PUNKTE_STUDENT);
+            setMenuItem(menu, VaadinIcon.DOCTOR.create(), TITLE_TEAMS, PAGE_TEAMS);
+            setMenuItem(menu, VaadinIcon.NURSE.create(), TITLE_GRUPPEN, PAGE_GRUPPEN);
+            setMenuItem(menu, VaadinIcon.WALLET.create(), TITLE_KONFIGURATION, PAGE_KONFIGURATION);
+            setMenuItem(menu, VaadinIcon.USER.create(), TITLE_NUTZER, PAGE_NUTZER);
+            setMenuItem(menu, VaadinIcon.ABACUS.create(), TITLE_PUNKTE, PAGE_PUNKTE_DOZENT);
+            setMenuItem(menu, VaadinIcon.ADOBE_FLASH.create(), TITLE_ADMIN, PAGE_ADMIN);
+        }
+
+        // Logo
+        String resolvedImage = VaadinServletService.getCurrent().resolveResource("frontend://styles/images/SWT-Planer.png",
+                VaadinSession.getCurrent().getBrowser());
+        Image logo = new Image(resolvedImage, "SWT-Planer 2019");
+        logo.setHeight("25px");
+        appLayout.setBranding(logo);
+        menu.getElement().getStyle().set("color", "#aaaaaa !important");
+
+        setMenuItem(
+                menu,
+                new AppLayoutMenuItem(
+                        VaadinIcon.ARROW_RIGHT.create(), TITLE_LOGOUT,
+                        e -> UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")
+                )
+        );
+
+        menu.addMenuItem(new Label("Eingeloggt als " + SecurityContextHolder.getContext().getAuthentication().getName()));
+    }
+
+    private void setMenuItem(AppLayoutMenu menu, Icon icon, String title, String pageRoute) {
+        icon.setSize("30px");
+        setMenuItem(menu, new AppLayoutMenuItem(icon, title, pageRoute));
+    }
+
+    private void setMenuItem(AppLayoutMenu menu, AppLayoutMenuItem menuItem) {
+        menuItem.getElement().setAttribute("theme", "icon-on-top");
+        menu.addMenuItem(menuItem);
+    }
+
+    @Override
+    public void showRouterLayoutContent(HasElement content) {
+        super.showRouterLayoutContent(content);
+    }
+
+}
+
