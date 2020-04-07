@@ -4,9 +4,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.uni.swt</groupId>
-	<artifactId>swt-planer-2019</artifactId>
-	<name>SWT Planer 2019</name>
-	<version>0.1-DEV</version>
+	<artifactId>course-planner</artifactId>
+	<name>course planner</name>
+	<version>0.1.0</version>
 	<packaging>war</packaging>
 
 	<properties>
@@ -16,13 +16,13 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Dependencies -->
-		<vaadin.version>13.0.8</vaadin.version>
+		<vaadin.version>14.1.23</vaadin.version>
 	</properties>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.4.RELEASE</version>
+		<version>2.2.0.RELEASE</version>
 	</parent>
 
 	<repositories>
